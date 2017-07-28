@@ -8,9 +8,12 @@ class App extends Component {
 
     this.update = this.update.bind(this);
     this.redraw = this.redraw.bind(this);
+    this.handlePause = this.handlePause.bind(this);
+    this.handleClear = this.handleClear.bind(this);
+    this.handleGenerate = this.handleGenerate.bind(this);
 
     let height = 50;
-    let width = 50;
+    let width = 80;
     let speed = 100;
     let generation = 0;
     let board = [];
@@ -40,12 +43,13 @@ class App extends Component {
 
   componentDidMount() {
     this.redraw();
-    setInterval(this.update, this.state.speed);
+    const interval = setInterval(this.update, this.state.speed);
+    this.setState({
+      "interval": interval,
+    });
   }
 
   redraw() {
-
-    console.log(JSON.stringify(this.state.board));
 
     var canvas = document.getElementById('canvas');
     if (canvas.getContext) {
@@ -119,11 +123,79 @@ class App extends Component {
     }
   }
 
+  handlePause() {
+    if (!this.state.interval) {
+      var interval = setInterval(this.update, this.state.speed);
+      this.setState({
+        "interval": interval,
+      });
+    } else {
+      clearInterval(this.state.interval);
+      this.setState({
+        "interval": null,
+      })
+    }
+  }
+
+  handleClear() {
+
+    let board = JSON.parse(JSON.stringify(this.state.board));
+    let updated = JSON.parse(JSON.stringify(this.state.updated));
+
+    for (var i = 0; i < this.state.height; i++) {
+      for (var j = 0; j < this.state.width; j++) {
+        board[i][j] = 0;
+        updated[i][j] = 1;
+      }
+    }
+
+    clearInterval(this.state.interval);
+
+    this.setState({
+      "board": board,
+      "updated": updated,
+      "interval": null,
+    }, this.redraw);
+  }
+
+  handleGenerate() {
+    let board = [];
+    let updated = [];
+
+    for (let i = 0; i < this.state.height; i++) {
+        const row = [];
+        const updateRow = [];
+        for (let j = 0; j < this.state.width; j++) {
+            const cell = Math.random() > 0.85 ? 1 : 0;
+            row.push(cell);
+            updateRow.push(1);
+        }
+        board.push(row);
+        updated.push(updateRow);
+    }
+
+    this.setState({
+      "board": board,
+      "updated": updated,
+    }, this.redraw);
+  }
+
   render() {
     return (
       <div className="App">
         <canvas id="canvas" width={this.state.width * 10} height={this.state.height * 10}>
         </canvas>
+        <div className="button-row">
+          <button className="btn-pause" onClick={this.handlePause}>
+            {this.state.interval ? "Pause" : "Start"}
+          </button>
+          <button className="btn-clear" onClick={this.handleClear}>
+            Clear
+          </button>
+          <button className="btn-gen" onClick={this.handleGenerate}>
+            Generate
+          </button>
+        </div>
       </div>
     );
   }
