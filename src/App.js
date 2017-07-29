@@ -8,41 +8,28 @@ class App extends Component {
 
     this.update = this.update.bind(this);
     this.redraw = this.redraw.bind(this);
+    this.generate = this.generate.bind(this);
     this.handlePause = this.handlePause.bind(this);
     this.handleClear = this.handleClear.bind(this);
     this.handleGenerate = this.handleGenerate.bind(this);
+    this.handleSpeedUpdate = this.handleSpeedUpdate.bind(this);
+    this.handleHeightUpdate = this.handleHeightUpdate.bind(this);
+    this.handleWidthUpdate = this.handleWidthUpdate.bind(this);
 
-    let height = 50;
-    let width = 80;
-    let speed = 100;
-    let generation = 0;
-    let board = [];
-    let updated = [];
-
-    for (let i = 0; i < height; i++) {
-        const row = [];
-        const updateRow = [];
-        for (let j = 0; j < width; j++) {
-            const cell = Math.random() > 0.85 ? 1 : 0;
-            row.push(cell);
-            updateRow.push(1);
-        }
-        board.push(row);
-        updated.push(updateRow);
-    }
+    let height = 100;
+    let width = 100;
+    let speed = 30;
 
     this.state = {
       "height": height,
       "width": width,
-      "generation": generation,
-      "board": board,
-      "updated": updated,
       "speed": speed,
     }
+
   }
 
   componentDidMount() {
-    this.redraw();
+    this.generate(this.redraw);
     const interval = setInterval(this.update, this.state.speed);
     this.setState({
       "interval": interval,
@@ -50,7 +37,6 @@ class App extends Component {
   }
 
   redraw() {
-
     var canvas = document.getElementById('canvas');
     if (canvas.getContext) {
       var ctx = canvas.getContext('2d');
@@ -110,6 +96,7 @@ class App extends Component {
     this.setState({
       "board": board,
       "updated": updated,
+      "generation": this.state.generation + 1,
     }, this.redraw);
   }
 
@@ -137,6 +124,45 @@ class App extends Component {
     }
   }
 
+  handleSpeedUpdate(event) {
+    let speed = event.target.value;
+    if (speed > 1000) {
+      speed = 1000;
+    } else if (speed < 10) {
+      speed = 10;
+    }
+    if (this.state.interval) {
+      clearInterval(this.state.interval)
+      const interval = setInterval(this.update, speed);
+      this.setState({
+        "speed": speed,
+        "interval": interval,
+      });
+    } else {
+      this.setState({
+        "speed": speed,
+      });
+    }
+  }
+
+  handleHeightUpdate(event) {
+    if (!this.state.interval) {
+      let height = event.target.value > 10 ? event.target.value : 10;
+      this.setState({
+        "height": height,
+      });
+    }
+  }
+
+  handleWidthUpdate(event) {
+    if (!this.state.interval) {
+      let width = event.target.value > 10 ? event.target.value : 10;
+      this.setState({
+        "width": width,
+      });
+    }
+  }
+
   handleClear() {
 
     let board = JSON.parse(JSON.stringify(this.state.board));
@@ -155,10 +181,15 @@ class App extends Component {
       "board": board,
       "updated": updated,
       "interval": null,
+      "generation": 0,
     }, this.redraw);
   }
 
   handleGenerate() {
+    this.generate(this.redraw);
+  }
+
+  generate(callback) {
     let board = [];
     let updated = [];
 
@@ -177,7 +208,8 @@ class App extends Component {
     this.setState({
       "board": board,
       "updated": updated,
-    }, this.redraw);
+      "generation": 0,
+    }, callback);
   }
 
   render() {
@@ -195,6 +227,12 @@ class App extends Component {
           <button className="btn-gen" onClick={this.handleGenerate}>
             Generate
           </button>
+          <label>
+            {this.state.generation}
+          </label>
+          <input type="text" value={this.state.speed} onChange={this.handleSpeedUpdate}></input>
+          <input type="text" value={this.state.height} onChange={this.handleHeightUpdate}></input>
+          <input type="text" value={this.state.width} onChange={this.handleWidthUpdate}></input>
         </div>
       </div>
     );
