@@ -15,21 +15,24 @@ class App extends Component {
     this.handleSpeedUpdate = this.handleSpeedUpdate.bind(this);
     this.handleHeightUpdate = this.handleHeightUpdate.bind(this);
     this.handleWidthUpdate = this.handleWidthUpdate.bind(this);
+    this.handleClick = this.handleClick.bind(this);
 
-    let height = 100;
-    let width = 100;
-    let speed = 30;
+    let height = 50;
+    let width = 80;
+    let speed = 100;
 
     this.state = {
       "height": height,
       "width": width,
+      "heightToSet": height,
+      "widthToSet": width,
       "speed": speed,
     }
 
   }
 
   componentDidMount() {
-    this.generate(this.redraw);
+    this.generate();
     const interval = setInterval(this.update, this.state.speed);
     this.setState({
       "interval": interval,
@@ -146,21 +149,17 @@ class App extends Component {
   }
 
   handleHeightUpdate(event) {
-    if (!this.state.interval) {
-      let height = event.target.value > 10 ? event.target.value : 10;
-      this.setState({
-        "height": height,
-      });
-    }
+    const height = event.target.value;
+    this.setState({
+      "heightToSet": height,
+    });
   }
 
   handleWidthUpdate(event) {
-    if (!this.state.interval) {
-      let width = event.target.value > 10 ? event.target.value : 10;
-      this.setState({
-        "width": width,
-      });
-    }
+    const width = event.target.value;
+    this.setState({
+      "widthToSet": width,
+    });
   }
 
   handleClear() {
@@ -186,10 +185,17 @@ class App extends Component {
   }
 
   handleGenerate() {
-    this.generate(this.redraw);
+    this.setState({
+      "height": this.state.heightToSet,
+      "width": this.state.widthToSet,
+    }, this.generate);
   }
 
-  generate(callback) {
+  handleClick(event) {
+    console.log(event.persist());
+  }
+
+  generate() {
     let board = [];
     let updated = [];
 
@@ -209,13 +215,13 @@ class App extends Component {
       "board": board,
       "updated": updated,
       "generation": 0,
-    }, callback);
+    }, this.redraw);
   }
 
   render() {
     return (
       <div className="App">
-        <canvas id="canvas" width={this.state.width * 10} height={this.state.height * 10}>
+        <canvas id="canvas" width={this.state.width * 10} height={this.state.height * 10} onClick={this.handleClick}>
         </canvas>
         <div className="button-row">
           <button className="btn-pause" onClick={this.handlePause}>
@@ -231,8 +237,8 @@ class App extends Component {
             {this.state.generation}
           </label>
           <input type="text" value={this.state.speed} onChange={this.handleSpeedUpdate}></input>
-          <input type="text" value={this.state.height} onChange={this.handleHeightUpdate}></input>
-          <input type="text" value={this.state.width} onChange={this.handleWidthUpdate}></input>
+          <input type="text" value={this.state.heightToSet} onChange={this.handleHeightUpdate}></input>
+          <input type="text" value={this.state.widthToSet} onChange={this.handleWidthUpdate}></input>
         </div>
       </div>
     );
