@@ -236,7 +236,7 @@ class App extends Component {
           <label>
             {this.state.generation}
           </label>
-          <input type="text" value={this.state.speed} onChange={this.handleSpeedUpdate}></input>
+          <input type="range" value={this.state.speed} min={10} max={1000} onChange={this.handleSpeedUpdate}></input>
           <input type="text" value={this.state.heightToSet} onChange={this.handleHeightUpdate}></input>
           <input type="text" value={this.state.widthToSet} onChange={this.handleWidthUpdate}></input>
         </div>
