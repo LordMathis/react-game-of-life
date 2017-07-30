@@ -8,15 +8,17 @@ const Board = (props) => (
       <button className="btn-pause" onClick={props.onPause}>
         {props.interval ? "Pause" : "Start"}
       </button>
+      <label>
+        {'Generations: ' + props.generation}
+      </label>
+    </div>
+    <div className="button-row">
       <button className="btn-clear" onClick={props.onClear}>
         Clear
       </button>
       <button className="btn-gen" onClick={props.onGenerate} disabled={props.interval}>
         Generate
       </button>
-      <label>
-        {'Generations: ' + props.generation}
-      </label>
       <input type="range" value={props.speed} min={10} max={1000} onChange={props.onSpeedUpdate}></input>
       <input type="text" value={props.heightToSet} onChange={props.onHeightUpdate}></input>
       <input type="text" value={props.widthToSet} onChange={props.onWidthUpdate}></input>
