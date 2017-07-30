@@ -15,6 +15,7 @@ class BoardContainer extends Component {
     this.handleHeightUpdate = this.handleHeightUpdate.bind(this);
     this.handleWidthUpdate = this.handleWidthUpdate.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleSettings = this.handleSettings.bind(this);
 
     let height = 50;
     let width = 80;
@@ -26,6 +27,7 @@ class BoardContainer extends Component {
       "heightToSet": height,
       "widthToSet": width,
       "speed": speed,
+      "showSettings": null,
     }
 
   }
@@ -212,6 +214,12 @@ class BoardContainer extends Component {
     }
   }
 
+  handleSettings() {
+    this.setState({
+      "showSettings": this.state.showSettings ? null : 1,
+    });
+  }
+
   generate() {
     let board = [];
     let updated = [];
@@ -244,13 +252,15 @@ class BoardContainer extends Component {
         generation={this.state.generation}
         widthToSet={this.state.widthToSet}
         heightToSet={this.state.heightToSet}
+        showSettings={this.state.showSettings}
         onClick={this.handleClick}
         onPause={this.handlePause}
         onClear={this.handleClear}
         onGenerate={this.handleGenerate}
         onHeightUpdate={this.handleHeightUpdate}
         onWidthUpdate={this.handleWidthUpdate}
-        onSpeedUpdate={this.handleSpeedUpdate}/>
+        onSpeedUpdate={this.handleSpeedUpdate}
+        onSettings={this.handleSettings}/>
     );
   }
 }

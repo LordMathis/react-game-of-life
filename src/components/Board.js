@@ -1,4 +1,5 @@
 import React from 'react';
+import './Board.css';
 
 const Board = (props) => (
   <div className="App">
@@ -6,13 +7,16 @@ const Board = (props) => (
     </canvas>
     <div className="button-row">
       <button className="btn-pause" onClick={props.onPause}>
-        {props.interval ? "Pause" : "Start"}
+        <i className={props.interval ? "fa fa-pause" : "fa fa-play"} aria-hidden="true"></i>
       </button>
       <label>
         {'Generations: ' + props.generation}
       </label>
+      <button className="btn-settings" onClick={props.onSettings}>
+        <i className="fa fa-cog" aria-hidden="true"></i>
+      </button>
     </div>
-    <div className="button-row">
+    <div className={props.showSettings ? "button-row" : "button-row hidden"}>
       <button className="btn-clear" onClick={props.onClear}>
         Clear
       </button>
