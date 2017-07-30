@@ -192,7 +192,25 @@ class App extends Component {
   }
 
   handleClick(event) {
-    console.log(event.persist());
+    if (!this.state.interval) {
+      var canvas = document.getElementById('canvas'),
+      x = event.pageX - canvas.offsetLeft,
+      y = event.pageY - canvas.offsetTop;
+
+      x = Math.floor(x / 10);
+      y = Math.floor(y / 10);
+
+      let board = JSON.parse(JSON.stringify(this.state.board));
+      let updated = JSON.parse(JSON.stringify(this.state.updated));
+
+      board[y][x] = board[y][x] === 1 ? 0 : 1;
+      updated[y][x] = 1;
+
+      this.setState({
+        "board": board,
+        "updated": updated,
+      }, this.redraw);
+    }
   }
 
   generate() {
@@ -230,11 +248,11 @@ class App extends Component {
           <button className="btn-clear" onClick={this.handleClear}>
             Clear
           </button>
-          <button className="btn-gen" onClick={this.handleGenerate}>
+          <button className="btn-gen" onClick={this.handleGenerate} disabled={this.state.interval}>
             Generate
           </button>
           <label>
-            {this.state.generation}
+            {'Generations: ' + this.state.generation}
           </label>
           <input type="range" value={this.state.speed} min={10} max={1000} onChange={this.handleSpeedUpdate}></input>
           <input type="text" value={this.state.heightToSet} onChange={this.handleHeightUpdate}></input>
