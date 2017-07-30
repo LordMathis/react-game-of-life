@@ -6,13 +6,13 @@ const Board = (props) => (
     <canvas id="canvas" width={props.width * 10} height={props.height * 10} onClick={props.onClick}>
     </canvas>
     <div className="button-row">
-      <button className="btn-pause" onClick={props.onPause}>
+      <button className="btn btn-default" onClick={props.onPause}>
         <i className={props.interval ? "fa fa-pause" : "fa fa-play"} aria-hidden="true"></i>
       </button>
-      <label>
+      <label className="label label-primary label-gen">
         {'Generations: ' + props.generation}
       </label>
-      <button className="btn-settings" onClick={props.onSettings}>
+      <button className="btn btn-default" onClick={props.onSettings}>
         <i className="fa fa-cog" aria-hidden="true"></i>
       </button>
     </div>

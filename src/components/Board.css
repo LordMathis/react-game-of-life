@@ -1,3 +1,7 @@
 .hidden {
   visibility: hidden;
 }
+
+.label-gen {
+  margin: .5em;
+}
