@@ -53,7 +53,7 @@ class BoardContainer extends Component {
               ctx.fillStyle = 'rgb(0, 0, 0)';
               ctx.fillRect(j*10, i*10, 9, 9);
             } else {
-              ctx.fillStyle = 'rgb(0, 0, 255)';
+              ctx.fillStyle = 'rgb(48,113,169)';
               ctx.fillRect(j*10, i*10, 9, 9);
             }
           }
@@ -129,12 +129,8 @@ class BoardContainer extends Component {
   }
 
   handleSpeedUpdate(event) {
-    let speed = event.target.value;
-    if (speed > 1000) {
-      speed = 1000;
-    } else if (speed < 10) {
-      speed = 10;
-    }
+    let speed = event.target.value
+
     if (this.state.interval) {
       clearInterval(this.state.interval)
       const interval = setInterval(this.update, speed);
@@ -245,7 +241,8 @@ class BoardContainer extends Component {
 
   render() {
     return (
-      <Board width={this.state.width}
+      <Board
+        width={this.state.width}
         height={this.state.height}
         interval={this.state.interval}
         speed={this.state.speed}
