@@ -1,3 +1,7 @@
+html, body {
+  height: 100%;
+}
+
 .hidden {
   opacity: 0;
 }
@@ -11,12 +15,12 @@
 }
 
 .dropdown-content {
-  position: absolute;
-  left: 20px;
-  top: 20px;
+  height: auto;
+  overflow: hidden;
   width: 150px;
   background-color: #ddd;
   padding: 5px;
+  margin: 0 auto;
 }
 
 .dropdown-item input {
@@ -31,6 +35,10 @@
 .dropdown-item {
   float: left;
   margin-bottom: 5px;
+}
+
+.button-row {
+  margin-bottom: 10px;
 }
 
 input[type=range] {
