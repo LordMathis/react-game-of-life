@@ -1,5 +1,5 @@
 .hidden {
-  visibility: hidden;
+  opacity: 0;
 }
 
 .label-gen {
@@ -8,6 +8,29 @@
 
 .speed-range {
   border: none;
+}
+
+.dropdown-content {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  width: 150px;
+  background-color: #ddd;
+  padding: 5px;
+}
+
+.dropdown-item input {
+  width: 100%;
+}
+
+.dropdown-content button {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dropdown-item {
+  float: left;
+  margin-bottom: 5px;
 }
 
 input[type=range] {
