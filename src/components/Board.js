@@ -27,7 +27,7 @@ const Board = (props) => (
       </button>
       <div className="dropdown-item">
         <label className="label label-default label-gen">
-          {'Speed: ' + props.speed}
+          {'Speed: ' + ((1000 - props.speed)/10 + 1) + '%'}
         </label>
         <input type="range" className="speed-range" value={props.speed} min={10} max={1000} onChange={props.onSpeedUpdate}></input>
       </div>
