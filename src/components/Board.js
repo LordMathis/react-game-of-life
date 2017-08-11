@@ -1,49 +1,28 @@
 import React from 'react';
+import { Settings, Controls } from '.';
 import './Board.css';
 
 const Board = (props) => (
-  <div className="App">
+  <div>
     <canvas id="canvas" width={props.width * 10} height={props.height * 10} onClick={props.onClick}>
     </canvas>
-    <div className="button-row">
-
-      <button className="btn btn-default" onClick={props.onPause}>
-        <i className={props.interval ? "glyphicon glyphicon-pause" : "glyphicon glyphicon-play"} aria-hidden="true"></i>
-      </button>
-      <label className="label label-primary label-gen">
-        {'Generations: ' + props.generation}
-      </label>
-      <button className="btn btn-default" onClick={props.onSettings}>
-        <i className="glyphicon glyphicon-cog" aria-hidden="true"> </i>
-      </button>
-
-  </div>
-    <div className={props.showSettings ? "dropdown-content" : "dropdown-content hidden"}>
-      <button className="btn btn-default dropdown-item" onClick={props.onClear}>
-        Clear
-      </button>
-      <button className="btn btn-default dropdown-item" onClick={props.onGenerate} disabled={props.interval}>
-        Generate
-      </button>
-      <div className="dropdown-item">
-        <label className="label label-default label-gen">
-          {'Speed: ' + ((1000 - props.speed)/10 + 1) + '%'}
-        </label>
-        <input type="range" className="speed-range" value={props.speed} min={10} max={1000} onChange={props.onSpeedUpdate}></input>
-      </div>
-      <div className="dropdown-item">
-        <label className="label label-default label-gen">
-          {'Height:'}
-        </label>
-        <input type="text" className="" value={props.heightToSet} onChange={props.onHeightUpdate}></input>
-      </div>
-      <div className="dropdown-item">
-        <label className="label label-default label-gen">
-          {'Width:'}
-        </label>
-        <input type="text" className="" value={props.widthToSet} onChange={props.onWidthUpdate}></input>
-      </div>
-    </div>
+    <Controls
+      interval={props.interval}
+      generation={props.generation}
+      onPause={props.onPause}
+      onSettings={props.onSettings}/>
+    <Settings
+      showSettings={props.showSettings}
+      speed={props.speed}
+      btnDisabled={props.interval}
+      heightToSet={props.heightToSet}
+      widthToSet={props.widthToSet}
+      onClear={props.onClear}
+      onHeightUpdate={props.onHeightUpdate}
+      onWidthUpdate={props.onWidthUpdate}
+      onGenerate={props.onGenerate}
+      onSpeedUpdate={props.onSpeedUpdate}
+      />
 
   </div>
 )
